@@ -9,6 +9,12 @@ public class Analisys {
 		if (length > 30000) {
 			return -1;
 		}
+		if (length ==0) {
+			return 0;
+		}
+		if (length ==1) {
+			return 1;
+		}
 		Map<Character, Integer> cursor = new HashMap<Character, Integer>();
 		cursor.put(string.charAt(0), 0);
 		int[] lengthAt = new int[string.length()];
