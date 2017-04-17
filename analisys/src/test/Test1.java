@@ -11,5 +11,4 @@ public class Test1 {
 		System.out.println(Analisys.AnalisysString("asdfghasfh"));
 	}
 	
-	
 }
