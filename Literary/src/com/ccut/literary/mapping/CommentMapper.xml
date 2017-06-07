@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccut.literary.IDao.CommentDao" >
+	<resultMap id="BaseResultMap" type="com.ccut.literary.domain.Comment" >
+		<id column="comment_id" property="commentId" jdbcType="INTEGER" />
+		<result column="poetry_id" property="poetryId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="re_user_id" property="reUserId" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="date" property="date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    comment_id, poetry_id, user_id, re_user_id, content, date
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+		<include refid="Base_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.ccut.literary.domain.Comment" >
+    insert into comment (comment_id, poetry_id, user_id, 
+      re_user_id, content, date
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{poetryId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{reUserId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}
+      )
+	</insert>
+	<insert id="insertSelective" parameterType="com.ccut.literary.domain.Comment" >
+    insert into comment
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="commentId != null" >
+        comment_id,
+			</if>
+			<if test="poetryId != null" >
+        poetry_id,
+			</if>
+			<if test="userId != null" >
+        user_id,
+			</if>
+			<if test="reUserId != null" >
+        re_user_id,
+			</if>
+			<if test="content != null" >
+        content,
+			</if>
+			<if test="date != null" >
+        date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+			</if>
+			<if test="poetryId != null" >
+        #{poetryId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="reUserId != null" >
+        #{reUserId,jdbcType=INTEGER},
+			</if>
+			<if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ccut.literary.domain.Comment" >
+    update comment
+		<set >
+			<if test="poetryId != null" >
+        poetry_id = #{poetryId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="reUserId != null" >
+        re_user_id = #{reUserId,jdbcType=INTEGER},
+			</if>
+			<if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ccut.literary.domain.Comment" >
+    update comment
+    set poetry_id = #{poetryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      re_user_id = #{reUserId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+	</update>
+	<select id="getCommentNumByKey" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) from comment where poetry_id = #{poetryId}
+	</select>
+	<select id="getCommentsByPoetryId" resultType="com.ccut.literary.domain.Comment" parameterType="java.lang.Integer">
+		select comment_id as commentId, poetry_id as poetryId, user_id as userId, re_user_id as reUserId, content, date
+		 from comment where poetry_id = #{poetryId} order by date desc limit #{i}, #{j}
+	</select>
+</mapper>

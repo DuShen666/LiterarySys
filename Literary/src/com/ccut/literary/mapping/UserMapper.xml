@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccut.literary.IDao.UserDao" >
+	<resultMap id="BaseResultMap" type="com.ccut.literary.domain.User" >
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="birthdate" property="birthdate" jdbcType="DATE" />
+		<result column="date_time" property="dateTime" jdbcType="TIMESTAMP" />
+		<result column="app_id" property="appId" jdbcType="VARCHAR" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="avatarUrl" property="avatarurl" jdbcType="VARCHAR" />
+		<result column="union_id" property="unionId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    user_id, nick_name, sex, birthdate, date_time, app_id, open_id, city, province, country, 
+    avatarUrl, union_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+		<include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.ccut.literary.domain.User" >
+    insert into user (user_id, nick_name, sex, 
+      birthdate, date_time, app_id, 
+      open_id, city, province, 
+      country, avatarUrl, union_id
+      )
+    values (#{userId,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{birthdate,jdbcType=DATE}, #{dateTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{avatarurl,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR}
+      )
+	</insert>
+	<insert id="insertSelective" parameterType="com.ccut.literary.domain.User" >
+    insert into user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userId != null" >
+        user_id,
+			</if>
+			<if test="nickName != null" >
+        nick_name,
+			</if>
+			<if test="sex != null" >
+        sex,
+			</if>
+			<if test="birthdate != null" >
+        birthdate,
+			</if>
+			<if test="dateTime != null" >
+        date_time,
+			</if>
+			<if test="appId != null" >
+        app_id,
+			</if>
+			<if test="openId != null" >
+        open_id,
+			</if>
+			<if test="city != null" >
+        city,
+			</if>
+			<if test="province != null" >
+        province,
+			</if>
+			<if test="country != null" >
+        country,
+			</if>
+			<if test="avatarurl != null" >
+        avatarUrl,
+			</if>
+			<if test="unionId != null" >
+        union_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="birthdate != null" >
+        #{birthdate,jdbcType=DATE},
+			</if>
+			<if test="dateTime != null" >
+        #{dateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+			</if>
+			<if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+			</if>
+			<if test="avatarurl != null" >
+        #{avatarurl,jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ccut.literary.domain.User" >
+    update user
+		<set >
+			<if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="birthdate != null" >
+        birthdate = #{birthdate,jdbcType=DATE},
+			</if>
+			<if test="dateTime != null" >
+        date_time = #{dateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+			</if>
+			<if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+			</if>
+			<if test="avatarurl != null" >
+        avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
+			</if>
+		</set>
+    where user_id = #{userId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ccut.literary.domain.User" >
+    update user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthdate = #{birthdate,jdbcType=DATE},
+      date_time = #{dateTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByOpenId" parameterType="com.ccut.literary.domain.User" >
+    update user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthdate = #{birthdate,jdbcType=DATE},
+      date_time = #{dateTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+      union_id = #{unionId,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=VARCHAR}
+	</update>
+	<select id="getUserByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+		<include refid="Base_Column_List" />
+    from user
+    where open_id = #{openId,jdbcType=VARCHAR}
+	</select>
+</mapper>

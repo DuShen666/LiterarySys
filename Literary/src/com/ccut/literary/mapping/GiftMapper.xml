@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccut.literary.IDao.GiftDao" >
+  <resultMap id="BaseResultMap" type="com.ccut.literary.domain.Gift" >
+    <id column="gift_id" property="giftId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="poetry_id" property="poetryId" jdbcType="INTEGER" />
+    <result column="gift" property="gift" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gift_id, user_id, poetry_id, gift, date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gift
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gift
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ccut.literary.domain.Gift" >
+    insert into gift (gift_id, user_id, poetry_id, 
+      gift, date)
+    values (#{giftId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{poetryId,jdbcType=INTEGER}, 
+      #{gift,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ccut.literary.domain.Gift" >
+    insert into gift
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="giftId != null" >
+        gift_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="poetryId != null" >
+        poetry_id,
+      </if>
+      <if test="gift != null" >
+        gift,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="giftId != null" >
+        #{giftId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="poetryId != null" >
+        #{poetryId,jdbcType=INTEGER},
+      </if>
+      <if test="gift != null" >
+        #{gift,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccut.literary.domain.Gift" >
+    update gift
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="poetryId != null" >
+        poetry_id = #{poetryId,jdbcType=INTEGER},
+      </if>
+      <if test="gift != null" >
+        gift = #{gift,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ccut.literary.domain.Gift" >
+    update gift
+    set user_id = #{userId,jdbcType=INTEGER},
+      poetry_id = #{poetryId,jdbcType=INTEGER},
+      gift = #{gift,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where gift_id = #{giftId,jdbcType=INTEGER}
+  </update>
+</mapper>

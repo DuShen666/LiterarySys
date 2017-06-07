@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccut.literary.IDao.SupportDao" >
+	<resultMap id="BaseResultMap" type="com.ccut.literary.domain.Support" >
+		<id column="support_id" property="supportId" jdbcType="INTEGER" />
+		<result column="poetry_id" property="poetryId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="date" property="date" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="comment_id" property="commentId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    support_id, poetry_id, user_id, date, type, comment_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+		<include refid="Base_Column_List" />
+    from support
+    where support_id = #{supportId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from support
+    where support_id = #{supportId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.ccut.literary.domain.Support" >
+    insert into support (support_id, poetry_id, user_id, 
+      date, type, comment_id
+      )
+    values (#{supportId,jdbcType=INTEGER}, #{poetryId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{date,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}
+      )
+	</insert>
+	<insert id="insertSelective" parameterType="com.ccut.literary.domain.Support" >
+    insert into support
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="supportId != null" >
+        support_id,
+			</if>
+			<if test="poetryId != null" >
+        poetry_id,
+			</if>
+			<if test="userId != null" >
+        user_id,
+			</if>
+			<if test="date != null" >
+        date,
+			</if>
+			<if test="type != null" >
+        type,
+			</if>
+			<if test="commentId != null" >
+        comment_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="supportId != null" >
+        #{supportId,jdbcType=INTEGER},
+			</if>
+			<if test="poetryId != null" >
+        #{poetryId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null" >
+        #{type,jdbcType=INTEGER},
+			</if>
+			<if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ccut.literary.domain.Support" >
+    update support
+		<set >
+			<if test="poetryId != null" >
+        poetry_id = #{poetryId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="commentId != null" >
+        comment_id = #{commentId,jdbcType=INTEGER},
+			</if>
+		</set>
+    where support_id = #{supportId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ccut.literary.domain.Support" >
+    update support
+    set poetry_id = #{poetryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      date = #{date,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      comment_id = #{commentId,jdbcType=INTEGER}
+    where support_id = #{supportId,jdbcType=INTEGER}
+	</update>
+	<select id="getSupportNumByKey" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) from support where poetry_id = #{poetryId}
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer" >
+    delete from support
+    where poetry_Id=#{poetryId} and user_id=#{userId} and type=0
+	</delete>
+	<delete id="deleteCom" parameterType="java.lang.Integer" >
+    delete from support
+    where comment_id=#{commentId} and user_id=#{userId} and type=1
+	</delete>
+	<select id="isSupport" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) from support where poetry_id = #{poetryId} and user_id=#{userId} and type=0
+	</select>
+	<select id="isSupportCom" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) from support where comment_id = #{commentId} and user_id=#{userId} and type=1
+	</select>
+	<select id="getComSupportNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(*) from support where comment_id = #{commentId} and type=1
+	</select>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccut.literary.IDao.PoetryDao" >
+	<resultMap id="BaseResultMap" type="com.ccut.literary.domain.Poetry" >
+		<id column="poetry_id" property="poetryId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+
+	</resultMap>
+	<sql id="Base_Column_List" >
+    poetry_id, title, content, user_id, create_date,pic_url,type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+		<include refid="Base_Column_List" />
+    from poetry
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from poetry
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.ccut.literary.domain.Poetry" >
+    insert into poetry (poetry_id, title, content, 
+      user_id, create_date, pic_url, 
+      type)
+    values (#{poetryId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{picUrl,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ccut.literary.domain.Poetry" >
+    insert into poetry
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="poetryId != null" >
+        poetry_id,
+			</if>
+			<if test="title != null" >
+        title,
+			</if>
+			<if test="content != null" >
+        content,
+			</if>
+			<if test="userId != null" >
+        user_id,
+			</if>
+			<if test="createDate != null" >
+        create_date,
+			</if>
+			<if test="picUrl != null" >
+        pic_url,
+			</if>
+			<if test="type != null" >
+        type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="poetryId != null" >
+        #{poetryId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+        #{type,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ccut.literary.domain.Poetry" >
+    update poetry
+		<set >
+			<if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+			</if>
+		</set>
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ccut.literary.domain.Poetry" >
+    update poetry
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
+    where poetry_id = #{poetryId,jdbcType=INTEGER}
+	</update>
+	<select id="getPoetries" resultType="com.ccut.literary.domain.Poetry" parameterType="java.lang.Integer">
+		select poetry_id as poetryId, title, content, user_id as userId, create_date as createDate,pic_url as picUrl,type
+    from poetry
+	where user_id = #{userId,jdbcType=INTEGER} or user_id in (select b_user_id from attention where user_id=#{userId,jdbcType=INTEGER}) order by create_date desc limit #{i,jdbcType=INTEGER}, #{j,jdbcType=INTEGER}
+	</select>	
+	
+	<select id="getMine" resultType="com.ccut.literary.domain.Poetry" parameterType="java.lang.Integer">
+		select poetry_id as poetryId, title, content, user_id as userId, create_date as createDate,pic_url as picUrl,type
+    from poetry
+	where user_id = #{userId} order by create_date desc limit #{i}, #{j}
+	</select>	
+	
+	<select id="find" resultType="com.ccut.literary.domain.Poetry" parameterType="java.lang.Integer">
+		select poetry_id as poetryId, title, content, user_id as userId, create_date as createDate,pic_url as picUrl,type
+    from poetry
+	where type = #{type} order by create_date desc limit #{i}, #{j}
+	</select>	
+	
+	<select id="getRecent" resultType="com.ccut.literary.domain.Poetry" parameterType="java.lang.Integer">
+	select poetry_id AS poetryId, title, content, user_id AS userId, create_date AS createDate,pic_url AS picUrl,TYPE
+    from poetry a,look b
+	where b.userId=#{role} and b.poetryId=a.poetry_id ORDER BY b.date DESC LIMIT 0,10	
+	</select>	
+</mapper>
